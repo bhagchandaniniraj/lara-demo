@@ -1,0 +1,24 @@
+name: Deploy Laravel Application
+
+on:
+  push:
+    branches:
+      - main  # Triggers the workflow whenever you push to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Deploy to AWS Windows EC2 via SSH
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: Administrator  
+        key: ${{ secrets.EC2_SSH_KEY }}
+        port: 22
+        script: |
+          cd C:\Users\Administrator\Desktop\lara-demo && git fetch --all && git reset --hard origin/main && C:\xampp\php\php.exe C:\ProgramData\ComposerSetup\bin\composer.phar install --no-interaction --prefer-dist --optimize-autoloader && C:\xampp\php\php.exe artisan migrate --force && C:\xampp\php\php.exe artisan config:cache && C:\xampp\php\php.exe artisan route:cache && C:\xampp\php\php.exe artisan view:cache
