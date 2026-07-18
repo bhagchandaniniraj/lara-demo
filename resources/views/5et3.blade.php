@@ -1,7 +1,7 @@
 @section("Helloo")
 
 <h1>
-    HOw are you Rupesh Sir. 
+    Hello ET5 Students. ...
 </h1>
 
 @endsection
